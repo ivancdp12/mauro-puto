@@ -1,16 +1,135 @@
-#include <iostream>
+//Depositos
+int main();
 
-int saldo();
-	float saldo=100000.0
+#include<iostream>
+using namespace std;
 
-int main() {
-	int usuario;
-	int contraseña;
+double saldo(double retiro, double deposito, double saldot)
+{
 
-	cout << "Bienvenido al cajero virtual de Mauro e Ivan" << end1;
-	cout << "Por favor ingrese su nombre de usuario" << end1;
-	cin >> contraseña;
-	cout << "Ingrese su pin" << end1;
+	system("clear");
+	saldot = saldot + deposito - retiro;
+	return saldot;
+
 
 }
 
+double deposit(double saldot)
+{
+
+	double dep = 0;
+	char sn;
+	do
+	{
+	LDeposito:
+		system("clear");
+		cout << "Ingrese cuanto quiere depositar: ";
+		cin >> dep;
+
+		while (dep <= 0)
+		{
+			cout << "Desea ingresar un valor valido s/S n/N: ";
+			cin >> sn;
+			if (sn == 'S' || sn == 's')
+				goto LDeposito;
+			else
+				exit(0);
+		}
+		saldot = saldo(0, dep, saldot);
+		cout << "Realizar otro deposito s/n: "; cin >> sn;
+	} while (sn == 's' || sn == 'S');
+
+	return saldot;
+}
+
+double retiro(double saldot)
+{
+	double retir = 0;
+	char sn;
+	system("clear");
+	if (saldot == 0)
+	{
+		cout << "No cuenta con saldo \n";
+		cout << "Desea realizar otra operacion s/n: "; cin >> sn;
+		if (sn == 'S' || sn == 's')
+		{
+			system("clear");
+			main();
+		}
+		else
+			exit(0);
+
+	}
+	do
+	{
+	LRetir:
+		system("clear");
+		cout << "Ingrese cantidad a Retirar: ";
+		cin >> retir;
+
+		while (saldot < retir)
+		{
+			cout << "Ud. no cuenta con saldo suficiente para hacer ese retiro\n";
+			goto reintentar;
+		}
+
+		while (retir <= 0)
+		{
+		reintentar:
+			cout << "Desea ingresar un valor valido s/S n/N: ";
+			cin >> sn;
+			if (sn == 'S' || sn == 's')
+				goto LRetir;
+			else
+				exit(0);
+		}
+		saldot = saldo(retir, 0, saldot);
+		cout << "Desea realizar otro retiro s/S n/N: "; cin >> sn;
+	} while (sn == 's' || sn == 'S');
+
+	return saldot;
+}
+
+
+
+double Option(int option1, double saldot)
+{
+	switch (option1)
+	{
+	case 1:saldot = deposit(saldot); break;
+	case 2:saldot = retiro(saldot); break;
+	case 3: {
+		saldot = saldo(0, 0, saldot);
+		cout << "Usted cuenta con :" << saldot << " dolares\n";
+	}break;
+	case 4: {system("clear"); cout << "Cerrando Sistema..."; exit(0); }break;
+
+	}
+
+
+	return saldot;
+}
+
+
+int main()
+{
+	int opt;
+	char sn;
+	double saldot = 0;
+
+	do
+	{
+		system("clear");
+		cout << "\t\t\tOperaciones Bancarias\n";
+		cout << "1. Deposito\n";
+		cout << "2. Retiro\n";
+		cout << "3. Saldo\n";
+		cout << "4. Salir\n\n";
+		cout << "Elija el numero de la opcion: "; cin >> opt;
+		saldot = Option(opt, saldot);
+		cout << "Desea continuar con otra operacion s/S n/N: "; cin >> sn;
+	} while (sn == 's' || sn == 'S');
+	system("clear");
+	cout << "Cerrando Sistema...\n"; exit(0);
+	return 0;
+}
